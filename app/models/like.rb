@@ -1,7 +1,6 @@
-class Rating < ApplicationRecord
+class Like < ApplicationRecord
   belongs_to :user
 
-  validates :rate, presence: true, inclusion: { in: 1..5 }
   validates :user_id, uniqueness: { scope: :movie_id }
   validates :movie_id, presence: true,
 end

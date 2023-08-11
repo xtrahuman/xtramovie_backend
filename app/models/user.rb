@@ -5,12 +5,10 @@ class User < ApplicationRecord
   enum role: %i[user admin]
   has_many :buy, dependent: :destroy
   has_many :rent, dependent: :destroy
-  has_many :favorites, dependent: :destroy
+  has_many :bookmark, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :ratings, dependent: :destroy
-#   has_many :rated_movies, through: :ratings, source: :movie:
-#   has_many :liked_movies, through: :likes, source: :movie
   
 
 

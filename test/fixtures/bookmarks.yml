@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  buy_price: 1.5
+  rent_price: 1.5
+  movie_id: MyString
+  movie_name: MyString
+  release_date: MyString
+  backdrop_path: MyString
+  image_url: MyString
+  genre: MyString
+  summary: MyText
+  user: one
+
+two:
+  buy_price: 1.5
+  rent_price: 1.5
+  movie_id: MyString
+  movie_name: MyString
+  release_date: MyString
+  backdrop_path: MyString
+  image_url: MyString
+  genre: MyString
+  summary: MyText
+  user: two
