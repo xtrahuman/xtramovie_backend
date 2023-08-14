@@ -1,52 +1,88 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
-    skip_before_action :authenticate_request, only: [:create]
-    before_action :set_user, only: [:show, :destroy]
+  skip_before_action :authenticate_request, only: [:create]
+  before_action :set_user, only: %i[show destroy]
 
+  # @current_user is only logged in user, @user and @users is any registered user
 
-# GET /users
+  # GET /users
 
-def index 
-    @users = User.all 
-    render json: @users, status: :ok
-end
-
-# GET /users/{userid}
-def show
-    render json: @user, status: :ok
-end
-
-# post /users
-def create
-    @user = User.new(user_params)
-    if @user.save
-        render json: @user, status: :created
+  def index
+    if @current_user.admin?
+        @users = User.all
+        render json: @users, status: :ok
     else
-        render json: {errors: @user.errors.full_messages },
+        render json: 'only admin can view this', status: :ok
+    end
+  end
+
+  # GET /users/{userid}
+  def show
+    if @current_user.admin?
+        render json: @user, status: :ok
+    elsif @current_user.user?
+        if @current_user.id != @user.id
+            render json: 'user unauthorized', status: :unauthorized
+        else
+            render json: @current_user, status: :ok
+        end
+    else
+        render json: 'unknown user', status: :unprocessable_entity
+    end
+  end
+
+  # post /users
+  def create
+    @current_user = User.new(user_params)
+    if @current_user.save
+      render json: @current_user, status: :created
+    else
+      render json: { errors: @current_user.errors.full_messages },
+             status: :unprocessable_entity
+    end
+  end
+
+  # PUT /users/{userid}
+  def update
+    if @current_user.admin
+        unless @user.update(user_params)
+            render json: { errors: @user.errors.full_messages },
+                   status: :unprocessable_entity
+        end
+    else 
+        unless @current_user.update(user_params)
+        render json: { errors: @current_user.errors.full_messages },
                 status: :unprocessable_entity
+        end
     end
-end
+  end
 
-# PUT /users/{userid}
-def update
-    unless @user.update(user_params)
-        render json: {errors: @user.errors.full_messages },
-                status: :unprocessable_entity
+  # DELETE /users/{userid}
+
+  def destroy
+    if @current_user.admin
+        if @user.destroy
+            render json: { message: 'user deleted' }, status: :ok
+        else
+            render json: { error: 'Error deleting user' }, status: :unprocessable_entity
+        end
+    else 
+        if @current_user.destroy
+            render json: { message: 'user deleted' }, status: :ok
+        else
+            render json: { error: 'Error deleting user' }, status: :unprocessable_entity
+        end
     end
-end
+  end
 
-# DELETE /users/{username}
+  private
 
-def destroy
-    @user.destroy
-end
+  def user_params
+    params.permit(:username, :firstname, :lastname, :email, :password)
+  end
 
-private
-    def user_params
-        params.permit(:username,:firstname,:lastname, :email, :password)
-    end
-
-    def set_user
-        @user = User.find(params[:id])
-    end
-
+  def set_user
+    @user = User.find(params[:id])
+  end
 end

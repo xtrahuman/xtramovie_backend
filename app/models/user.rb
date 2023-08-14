@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
-#   before_create :set_slug
+  #   before_create :set_slug
 
   has_secure_password
   enum role: %i[user admin]
@@ -9,8 +11,6 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :ratings, dependent: :destroy
-  
-
 
   validates :password, presence: true, length: { minimum: 8 }, confirmation: true, on: :create
   validates :email, presence: true, uniqueness: { message: 'Email already taken' }
@@ -28,8 +28,7 @@ class User < ApplicationRecord
     "#{firstname} #{lastname}".strip
   end
 
-#   def set_slug
-#     self.slug = "#{full_name.parameterize}-#{SecureRandom.hex(2)}"
-#   end
-
+  #   def set_slug
+  #     self.slug = "#{full_name.parameterize}-#{SecureRandom.hex(2)}"
+  #   end
 end
