@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     if @current_user.admin?
         render json: @user, status: :ok
     elsif @current_user.user?
-        if @current_user.id != @user.id
+        if @current_user.id == @user.id.to_i
             render json: 'user unauthorized', status: :unauthorized
         else
             render json: @current_user, status: :ok
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
 
   # PUT /users/{userid}
   def update
-    if @current_user.admin
+    if @current_user.admin?
         unless @user.update(user_params)
             render json: { errors: @user.errors.full_messages },
                    status: :unprocessable_entity
@@ -61,7 +61,7 @@ class UsersController < ApplicationController
   # DELETE /users/{userid}
 
   def destroy
-    if @current_user.admin
+    if @current_user.admin?
         if @user.destroy
             render json: { message: 'user deleted' }, status: :ok
         else

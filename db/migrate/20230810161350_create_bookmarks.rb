@@ -10,7 +10,7 @@ class CreateBookmarks < ActiveRecord::Migration[7.0]
       t.string :release_date
       t.string :backdrop_path
       t.string :image_url
-      t.string :genre
+      t.string :genre, array: true, default: []
       t.text :summary
       t.references :user, null: false, foreign_key: true
 

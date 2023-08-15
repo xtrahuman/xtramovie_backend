@@ -8,7 +8,12 @@ Rails.application.routes.draw do
 
   resources :users
   resources :likes, only: %i[index create show]
+  resources :comments, only: %i[index create destroy]
+  resources :buys, only: %i[index create ]
+  resources :bookmarks, only: %i[index create destroy]
+  resources :rents, only: %i[index create ]
   post 'login', to: 'authentication#login'
 
-  get 'movie_likes', to: 'likes#movie_like'
+  get 'movie_likes', to: 'likes#movie_likes'
+  get 'movie_comments', to: 'comments#movie_comments'
 end
