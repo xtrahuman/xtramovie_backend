@@ -40,6 +40,8 @@ class BookmarksController < ApplicationController
             else 
                 render json: {error: 'error deleting bookmark'}, status: :unprocessable_entity
             end
+        else
+            render json: {error: 'unauthorized'}, status: :unauthorized
         end
     end
 

@@ -2,15 +2,20 @@
 
 class LikesController < ApplicationController
     before_action :authenticate_request!
+
+  # GET /likes
   def index
-    @likes = @current_user.likes.all
+    @likes = @current_user.likes.all.order('created_at DESC')
     render json: { likes: @likes }
   end
+
+  # GET /movie_likes
+  # Body movie_id
 
   def movie_likes
     movie_id= params[:movie_id]
     if movie_id
-        @movie_like = Like.where(movie_id: movie_id)
+        @movie_like = Like.where(movie_id: movie_id).order('created_at DESC')
         @like_count = @movie_like.count
         render json: {count: @like_count, movie_likes: @movie_like }, status: :ok
     else
@@ -22,13 +27,16 @@ class LikesController < ApplicationController
 #     @movie_like = Like.find(params[:id])
 #   end
 
+  # post /likes
+  # body movie_id
+
   def create
-    @like = Like.find_by(user_id: params[:user_id], movie_id: params[:movie_id])
+    @like = @current_user.likes.find_by(movie_id: params[:movie_id])
     if @like
        @like.destroy
        render json: 'like deleted successfully!'.to_json, status: :ok
     else
-        like = Like.new(likes_param)
+        like = @current_user.likes.new(likes_param)
       if like.save
         render json: 'like created successfully!'.to_json, status: :ok
       else
@@ -40,6 +48,6 @@ class LikesController < ApplicationController
   private
 
   def likes_param
-    params.permit(:user_id, :movie_id)
+    params.permit(:movie_id)
   end
 end

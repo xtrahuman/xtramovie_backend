@@ -2,14 +2,14 @@ class CommentsController < ApplicationController
     before_action :authenticate_request!
 
     def index
-        @comment = Comment.all
+        @comment = Comment.all.order('created_at ASC')
         render json: { comments: @comment }
     end
 
     def movie_comments
         movie_id= params[:movie_id]
         if movie_id
-            @movie_comment = Comment.where(movie_id: movie_id)
+            @movie_comment = Comment.where(movie_id: movie_id).order('created_at ASC')
             @comment_count = @movie_comment.count
             render json: {count: @comment_count, movie_comments: @movie_comment  }, status: :ok
         else
@@ -28,7 +28,8 @@ class CommentsController < ApplicationController
         end
     end
 
-    #comments/:id
+    # DELETE comments/:id
+    # body user_id
     def destroy
         user_id = params.require(:user_id)
         comment = Comment.find_by(id: params.require(:id), user_id: user_id)
@@ -44,6 +45,8 @@ class CommentsController < ApplicationController
             else 
                 render json: {error: 'error deleting comment'}, status: :unprocessable_entity
             end
+        else
+            render json: {error: 'unauthorized'}, status: :unauthorized
         end
     end
 
