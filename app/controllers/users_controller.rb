@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  skip_before_action :authenticate_request, only: [:create]
+  skip_before_action :authenticate_request!, only: [:create]
   before_action :set_user, only: %i[show destroy]
 
   # @current_user is only logged in user, @user and @users is any registered user

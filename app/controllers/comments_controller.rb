@@ -1,11 +1,14 @@
 class CommentsController < ApplicationController
     before_action :authenticate_request!
 
+    # GET /comments
     def index
         @comment = Comment.all.order('created_at ASC')
         render json: { comments: @comment }
     end
-
+    
+    #GET /movie_comments
+    #Body {movie_id}
     def movie_comments
         movie_id= params[:movie_id]
         if movie_id
@@ -17,6 +20,8 @@ class CommentsController < ApplicationController
         end
     end
 
+    # POST /comments
+    # Body {movie_id, comment}
     def create
         # comment = Comment.new(comment_param)
         #this below makes sure only signed user can comment

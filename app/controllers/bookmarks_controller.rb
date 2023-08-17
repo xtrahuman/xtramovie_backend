@@ -25,6 +25,7 @@ class BookmarksController < ApplicationController
       end
 
     # DELETE /bookmarks/:id
+    # Body {user_id}
     def destroy
         user_id = params.require(:user_id)
         bookmark = Bookmark.find_by(id: params.require(:id), user_id: user_id)

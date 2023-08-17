@@ -1,6 +1,7 @@
 class BuysController < ApplicationController
     before_action :authenticate_request!
 
+    #GET /buys
     def index
 
       if @current_user.admin?
@@ -13,6 +14,8 @@ class BuysController < ApplicationController
     end
 
 
+    # POST /buys
+    # Body {buy_param}
     def create
         # buy = Buy.new(buy_param)
         #this below makes sure only signed user can buy
