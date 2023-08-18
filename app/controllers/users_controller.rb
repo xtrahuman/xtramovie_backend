@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     if @current_user.admin?
         render json: @user, status: :ok
     elsif @current_user.user?
-        if @current_user.id == @user.id.to_i
+        if @current_user.id != @user.id.to_i
             render json: 'user unauthorized', status: :unauthorized
         else
             render json: @current_user, status: :ok

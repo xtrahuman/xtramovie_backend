@@ -12,7 +12,7 @@ class ApplicationController < ActionController::API
     token = header.split(' ').last if header
 
     if token.blank? || !jwt_decode(token)
-      render json: { error: 'Unauthorized' }, status: :unauthorized
+      render json: { error: 'unauthorized' }, status: :unauthorized
     else
       decoded = jwt_decode(token)
       if decoded.nil?
