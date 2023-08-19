@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   resources :likes, only: %i[index create show], path: 'favorites'
   resources :comments, only: %i[index create destroy]
   resources :buys, only: %i[index create ]
-  resources :bookmarks, only: %i[index create destroy], path: 'wishlists'
+  resources :bookmarks, only: %i[index create destroy], path: 'watchlists'
   resources :ratings, only: %i[index create destroy]
   resources :rents, only: %i[index create ]
   post 'login', to: 'authentication#login'

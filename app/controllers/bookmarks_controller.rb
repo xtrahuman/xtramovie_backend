@@ -50,6 +50,6 @@ class BookmarksController < ApplicationController
     private
     def bookmark_param
     # if using bookmark.new(bookmark_param) to create :user_id should be included below
-        params.permit(:movie_id, :buy_price, :rent_price, :movie_name, :release_date, :backdrop_path, :image_url, genre: [])
+        params.permit(:movie_id, :buy_price, :rent_price, :movie_name, :release_date, :backdrop_path, :image_url,:summary , genre: [])
     end
 end
