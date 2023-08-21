@@ -93,5 +93,4 @@ production:
   # database: xtramovie_backend_production
   # username: xtramovie_backend
   # password: <%= ENV["XTRAMOVIE_BACKEND_DATABASE_PASSWORD"] %>
-  # url: <%= ENV["DATABASE_URL"] %>
-  url: postgres://admin_tochi:aJJsvvm9mmEN3PiGo4H5HKHQSttYY0Ua@dpg-cjhopr337aks73a159o0-a.oregon-postgres.render.com/backend_database_e36i
+  url: <%= ENV["DATABASE_URL"] %>
