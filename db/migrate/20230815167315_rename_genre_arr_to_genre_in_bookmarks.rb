@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameGenreArrToGenreInBookmarks < ActiveRecord::Migration[7.0]
   def change
     rename_column :bookmarks, :genre_arr, :genre

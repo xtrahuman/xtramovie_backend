@@ -10,25 +10,25 @@ class UsersController < ApplicationController
 
   def index
     if @current_user.admin?
-        @users = User.all
-        render json: @users, status: :ok
+      @users = User.all
+      render json: @users, status: :ok
     else
-        render json: 'only admin can view this', status: :ok
+      render json: 'only admin can view this', status: :ok
     end
   end
 
   # GET /users/{userid}
   def show
     if @current_user.admin?
-        render json: @user, status: :ok
+      render json: @user, status: :ok
     elsif @current_user.user?
-        if @current_user.id != @user.id.to_i
-            render json: 'user unauthorized', status: :unauthorized
-        else
-            render json: @current_user, status: :ok
-        end
+      if @current_user.id != @user.id.to_i
+        render json: 'user unauthorized', status: :unauthorized
+      else
+        render json: @current_user, status: :ok
+      end
     else
-        render json: 'unknown user', status: :unprocessable_entity
+      render json: 'unknown user', status: :unprocessable_entity
     end
   end
 
@@ -46,15 +46,15 @@ class UsersController < ApplicationController
   # PUT /users/{userid}
   def update
     if @current_user.admin?
-        unless @user.update(user_params)
-            render json: { errors: @user.errors.full_messages },
-                   status: :unprocessable_entity
-        end
-    else 
-        unless @current_user.update(user_params)
+      unless @user.update(user_params)
+        render json: { errors: @user.errors.full_messages },
+               status: :unprocessable_entity
+      end
+    else
+      unless @current_user.update(user_params)
         render json: { errors: @current_user.errors.full_messages },
-                status: :unprocessable_entity
-        end
+               status: :unprocessable_entity
+      end
     end
   end
 
@@ -62,17 +62,15 @@ class UsersController < ApplicationController
 
   def destroy
     if @current_user.admin?
-        if @user.destroy
-            render json: { message: 'user deleted' }, status: :ok
-        else
-            render json: { error: 'Error deleting user' }, status: :unprocessable_entity
-        end
-    else 
-        if @current_user.destroy
-            render json: { message: 'user deleted' }, status: :ok
-        else
-            render json: { error: 'Error deleting user' }, status: :unprocessable_entity
-        end
+      if @user.destroy
+        render json: { message: 'user deleted' }, status: :ok
+      else
+        render json: { error: 'Error deleting user' }, status: :unprocessable_entity
+      end
+    elsif @current_user.destroy
+      render json: { message: 'user deleted' }, status: :ok
+    else
+      render json: { error: 'Error deleting user' }, status: :unprocessable_entity
     end
   end
 
