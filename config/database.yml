@@ -90,3 +90,4 @@ production:
   database: xtramovie_backend_production
   username: xtramovie_backend
   password: <%= ENV["XTRAMOVIE_BACKEND_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
