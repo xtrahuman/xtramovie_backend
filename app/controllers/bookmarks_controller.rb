@@ -3,7 +3,7 @@
 class BookmarksController < ApplicationController
   before_action :authenticate_request!
 
-  # GET /bookmarks
+  # GET /watchlists
   def index
     if @current_user.admin?
       bookmarks = Bookmark.all
@@ -20,7 +20,8 @@ class BookmarksController < ApplicationController
   # users = User.includes(:orders)
   # total_amount = users.map { |user| user.orders.sum(:amount) }.sum
 
-  # POST /bookmarks
+  # POST /watchlists
+  # Body {bookmark_param}
   def create
     # bookmark = Bookmark.new(bookmark_param)
     # this below makes sure only signed user can bookmark
@@ -32,7 +33,7 @@ class BookmarksController < ApplicationController
     end
   end
 
-  # DELETE /bookmarks/:id
+  # DELETE /watchlists/:id
   # Body {user_id}
   def destroy
     user_id = params.require(:user_id)
